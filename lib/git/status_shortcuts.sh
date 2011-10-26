@@ -74,14 +74,19 @@ git_add_shortcuts() {
 # Does nothing if no args are given.
 git_silent_add_shortcuts() {
   if [ -n "$1" ]; then
+    flags=''
     function process {
       file=$1
       # Use 'git rm' if file doesn't exist and 'ga_auto_remove' is enabled.
-      if [[ $ga_auto_remove == "yes" ]] && ! [ -e "$file" ]; then
-        echo -n "# "
-        git rm "$file"
+      if [[ ! -e $file ]]; then
+        if [[ "$file" =~ ^- ]] ; then
+          flags="$flags $file"
+        elif [[ $ga_auto_remove == "yes" ]] ; then
+          echo -n "# "
+          git rm $flags $file
+        fi
       else
-        git add "$file"
+        git add $flags $file
         echo -e "# add '$file'"
       fi
     }
