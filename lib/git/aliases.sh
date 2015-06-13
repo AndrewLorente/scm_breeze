@@ -28,7 +28,7 @@ function git(){
   case $1 in
     commit|blame|add|log|rebase|merge)
       exec_scmb_expand_args "$_git_cmd" "$@";;
-    checkout|diff|rm|reset)
+    checkout|diff|dif|rm|reset)
       exec_scmb_expand_args --relative "$_git_cmd" "$@";;
     branch)
       _scmb_git_branch_shortcuts "${@:2}";;
